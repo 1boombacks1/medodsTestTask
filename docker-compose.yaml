@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    environment:
+      - MONGO_DATA_DIR=/data/db
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+
+  app:
+    container_name: app
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "${SRV_PORT}:${SRV_PORT}"
+    depends_on:
+      - mongo
+    restart: unless-stopped

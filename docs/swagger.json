@@ -1,0 +1,110 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a service for generating authentication tokens and their refresh",
+        "title": "Authentication Service",
+        "contact": {
+            "name": "Nikolaev Yakov",
+            "email": "nikolaevforbuss@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:3003",
+    "basePath": "/",
+    "paths": {
+        "/auth/generateTokens": {
+            "get": {
+                "description": "Generate tokens by guid in query",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "GenerateTokens",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "guid",
+                        "name": "guid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/refresh": {
+            "get": {
+                "description": "Refresh tokens by given valid 'refresh token' in cookies",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "RefreshTokens",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.errorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controllers.errorResponse": {
+            "type": "object",
+            "properties": {
+                "errorMessage": {
+                    "type": "string"
+                },
+                "statusCode": {
+                    "type": "integer"
+                }
+            }
+        },
+        "controllers.response": {
+            "type": "object",
+            "properties": {
+                "auth_token": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
